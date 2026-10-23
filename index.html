@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12 Form Laporan Perbaikan - Dropdown Teknisi</title>
+    <title>12 Form Laporan Perbaikan - Sinkronisasi Otomatis</title>
     
     <!-- LIBRARY HTML2CANVAS & JSPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -139,7 +139,7 @@
             padding: 0;
         }
 
-        /* Styling khusus Dropdown (Select) */
+        /* Styling khusus Dropdown (Hanya di Form 1) */
         select.tech-select {
             width: 100%;
             border: none;
@@ -149,17 +149,22 @@
             font-size: 10px;
             padding: 0;
             cursor: pointer;
-            appearance: none; /* Menghilangkan panah default bawaan browser */
+            appearance: none; 
             -webkit-appearance: none;
             -moz-appearance: none;
             color: #000;
-        }
-        /* Menambahkan panah kustom agar rapi */
-        select.tech-select {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 0px center;
             background-size: 10px;
+        }
+
+        /* Tampilan Teks Nama Teknisi (Untuk Form 2-12) */
+        .tech-name-top-display {
+            font-size: 10px;
+            display: block;
+            width: 100%;
+            min-height: 14px; /* Mencegah kolaps saat kosong */
         }
 
         /* Input khusus untuk area tanda tangan agar memenuhi kotak */
@@ -198,7 +203,8 @@
             padding: 2px 0; 
             border-top: 1px solid #000; 
             background-color: #f9f9f9;
-            min-height: 14px; /* Agar tidak kolaps saat kosong */
+            min-height: 14px;
+            text-transform: uppercase; /* Nama otomatis jadi huruf besar */
         }
 
         /* --- PENGATURAN PRINT (CTRL+P) --- */
@@ -248,12 +254,12 @@
         <div class="outer-border">
             <div class="table-grid">
                 
-                <!-- FORM 1 -->
+                <!-- ================= FORM 1 (HANYA INI YANG ADA DROPDOWN) ================= -->
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
                         <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
+                            <select class="tech-select" onchange="syncTechName(this)">
                                 <option value="" disabled selected>-- Pilih Teknisi --</option>
                                 <option value="YANDRI OTTU">YANDRI OTTU</option>
                                 <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
@@ -276,7 +282,8 @@
                                 <div class="sign-input-wrapper">
                                     <input type="text" style="text-align: center; height: 100%;">
                                 </div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <!-- Nama akan muncul di sini -->
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -290,21 +297,12 @@
                     </tr>
                 </table>
 
+                <!-- ================= FORM 2 - 12 (HANYA TEKS) ================= -->
                 <!-- FORM 2 -->
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -316,7 +314,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -332,17 +330,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -354,7 +342,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -370,17 +358,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -392,7 +370,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -408,17 +386,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -430,7 +398,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -446,17 +414,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -468,7 +426,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -484,17 +442,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -506,7 +454,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -522,17 +470,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -544,7 +482,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -560,17 +498,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -582,7 +510,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -598,17 +526,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -620,7 +538,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -636,17 +554,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -658,7 +566,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -674,17 +582,7 @@
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2">
-                            <select class="tech-select" onchange="updateTechName(this)">
-                                <option value="" disabled selected>-- Pilih Teknisi --</option>
-                                <option value="YANDRI OTTU">YANDRI OTTU</option>
-                                <option value="HARMINDO LAMMA">HARMINDO LAMMA</option>
-                                <option value="INOSENCIUS FA'OT">INOSENCIUS FA'OT</option>
-                                <option value="RIZALDI ABDULLAH">RIZALDI ABDULLAH</option>
-                                <option value="MUHAMMAD FAUZI">MUHAMMAD FAUZI</option>
-                                <option value="KRISTIAN OPENG">KRISTIAN OPENG</option>
-                            </select>
-                        </td>
+                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
                     </tr>
                     <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
                     <tr class="row-header">
@@ -696,7 +594,7 @@
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
                                 <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
-                                <div class="sign-name-display tech-name-output"></div>
+                                <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
@@ -712,20 +610,19 @@
         </div>
     </div>
 
-    <!-- Script untuk Dropdown & Download PDF -->
+    <!-- Script Sinkronisasi & Download PDF -->
     <script>
-        // Fungsi untuk memperbarui nama teknisi di bagian TTD secara otomatis
-        function updateTechName(selectElement) {
-            // Cari tabel induk dari elemen select yang diubah
-            const table = selectElement.closest('table');
+        // Fungsi untuk menyebarkan nama teknisi ke SELURUH form
+        function syncTechName(selectElement) {
+            const selectedName = selectElement.value;
             
-            // Cari div output nama di dalam tabel tersebut
-            const nameOutput = table.querySelector('.tech-name-output');
+            // Ambil semua elemen yang memiliki class 'sync-tech-name' (baik di atas maupun di bawah TTD)
+            const allTechNameElements = document.querySelectorAll('.sync-tech-name');
             
-            // Jika ada, perbarui teksnya sesuai nilai yang dipilih
-            if (nameOutput) {
-                nameOutput.innerText = selectElement.value;
-            }
+            // Lakukan perulangan untuk mengganti teksnya
+            allTechNameElements.forEach(function(element) {
+                element.innerText = selectedName;
+            });
         }
 
         // Fungsi Download PDF
