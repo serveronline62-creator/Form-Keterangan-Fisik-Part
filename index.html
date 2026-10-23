@@ -826,18 +826,27 @@
                     const hodsSignName  = 'Muhammad Fauzi';
 
                     // --- 2. GAMBAR GARIS TABEL ---
+                    // Kotak luar
                     pdf.rect(x, y, formWidth, formHeight);
 
+                    // Baris 1: NAMA TEKNISI
                     pdf.line(x, y + 8, x + formWidth, y + 8);
                     pdf.line(x + 33, y, x + 33, y + 8);
 
+                    // Baris 2: Keterangan
                     pdf.line(x, y + 16, x + formWidth, y + 16);
                     pdf.line(x + 33, y + 8, x + 33, y + 16);
 
-                    pdf.line(x, y + 23, x + formWidth, y + 23);
+                    // Baris 3 & 4: Tanda Tangan
+                    // PERBAIKAN: garis horizontal hanya dari x + 33 ke kanan,
+                    // sehingga sel TANDATANGAN (rowspan) tidak terpotong garis.
+                    pdf.line(x + 33, y + 23, x + formWidth, y + 23);
+
+                    // Garis vertikal kiri & tengah area TTD
                     pdf.line(x + 33, y + 16, x + 33, y + 45);
                     pdf.line(x + 64, y + 16, x + 64, y + 45);
 
+                    // Garis pemisah nama di bawah TTD
                     pdf.line(x + 33, y + 41, x + 64, y + 41);
                     pdf.line(x + 64, y + 41, x + 95, y + 41);
 
@@ -856,13 +865,13 @@
                     pdf.setFont('helvetica', 'normal');
                     pdf.text(fitText(pdf, keterangan, 58), x + 35, y + 13.5);
 
-                    // Baris 3 (Header)
+                    // Baris 3: header TTD
                     pdf.setFont('helvetica', 'bold');
                     pdf.text('TANDATANGAN', x + 2, y + 30);
                     pdf.text('Teknisi', x + 48.5, y + 20, { align: 'center' });
                     pdf.text('HoDS',    x + 79.5, y + 20, { align: 'center' });
 
-                    // Baris 4 (Isi TTD)
+                    // Isi TTD
                     pdf.setFont('helvetica', 'normal');
                     pdf.text(fitText(pdf, techSignInput, 28), x + 48.5, y + 36, { align: 'center' });
                     pdf.text(fitText(pdf, hodsSignInput, 28), x + 79.5, y + 36, { align: 'center' });
