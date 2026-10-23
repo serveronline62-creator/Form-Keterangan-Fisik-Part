@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Laporan Perbaikan - Full A4</title>
+    <title>12 Form Laporan Perbaikan - Full A4</title>
     
     <!-- Library untuk mengubah HTML ke PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -65,18 +65,18 @@
         /* Garis luar tebal */
         .outer-border {
             border: 2px solid #000;
-            padding: 8px;
+            padding: 6px; /* Padding luar dikurangi sedikit */
             height: 100%;
             box-sizing: border-box;
             display: flex;
         }
 
-        /* Grid untuk 10 form (5 baris x 2 kolom) */
+        /* Grid untuk 12 form (6 baris x 2 kolom) */
         .table-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(5, 1fr); /* Membagi rata tinggi kertas jadi 5 baris */
-            gap: 10px 15px;
+            grid-template-rows: repeat(6, 1fr); /* Membagi kertas jadi 6 baris rata */
+            gap: 6px 10px; /* Jarak antar form dirapatkan */
             width: 100%;
             height: 100%;
         }
@@ -86,17 +86,17 @@
             width: 100%;
             height: 100%; /* Tabel memenuhi tinggi grid cell */
             border-collapse: collapse;
-            font-size: 10px;
-            table-layout: fixed; /* Menjaga lebar kolom tetap konsisten */
+            font-size: 9px; /* Font sedikit dikecilkan */
+            table-layout: fixed; 
         }
 
         td {
             border: 1px solid #000;
-            padding: 3px 5px;
+            padding: 1px 4px; /* Padding dirapatkan */
             vertical-align: middle;
         }
 
-        /* Mengatur lebar kolom */
+        /* Lebar Kolom */
         .col-label { width: 35%; }
         .col-input { width: 65%; }
         .col-sign { width: 35%; }
@@ -106,17 +106,17 @@
         /* Teks Label */
         .label-bold {
             font-weight: bold;
-            font-size: 9px;
+            font-size: 8px; /* Label lebih kecil */
             text-transform: uppercase;
         }
 
         .label-italic {
             font-style: italic;
-            font-size: 9px;
+            font-size: 8px;
         }
 
         .sub-label {
-            font-size: 9px;
+            font-size: 8px;
         }
 
         /* Input Area */
@@ -126,14 +126,14 @@
             outline: none;
             background: transparent;
             font-family: inherit;
-            font-size: 10px;
+            font-size: 9px;
             padding: 0;
         }
 
         /* --- PENGATURAN PRINT/PDF --- */
         @page {
             size: A4 portrait;
-            margin: 0; /* Margin diatur oleh page-container */
+            margin: 0; 
         }
 
         @media print {
@@ -149,7 +149,7 @@
 
             .page-container {
                 width: 100%;
-                height: 100vh; /* Memastikan saat print full 1 halaman */
+                height: 100vh;
                 padding: 10mm;
                 box-shadow: none;
             }
@@ -176,6 +176,7 @@
         <div class="outer-border">
             <div class="table-grid">
                 
+                <!-- ================= BARIS 1 ================= -->
                 <!-- FORM 1 -->
                 <table>
                     <tr>
@@ -226,6 +227,7 @@
                     </tr>
                 </table>
 
+                <!-- ================= BARIS 2 ================= -->
                 <!-- FORM 3 -->
                 <table>
                     <tr>
@@ -276,6 +278,7 @@
                     </tr>
                 </table>
 
+                <!-- ================= BARIS 3 ================= -->
                 <!-- FORM 5 -->
                 <table>
                     <tr>
@@ -326,6 +329,7 @@
                     </tr>
                 </table>
 
+                <!-- ================= BARIS 4 ================= -->
                 <!-- FORM 7 -->
                 <table>
                     <tr>
@@ -376,6 +380,7 @@
                     </tr>
                 </table>
 
+                <!-- ================= BARIS 5 ================= -->
                 <!-- FORM 9 -->
                 <table>
                     <tr>
@@ -426,6 +431,57 @@
                     </tr>
                 </table>
 
+                <!-- ================= BARIS 6 ================= -->
+                <!-- FORM 11 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
+
+                <!-- FORM 12 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
+
             </div>
         </div>
     </div>
@@ -437,9 +493,9 @@
             
             const opt = {
                 margin:       0, 
-                filename:     'Form_Laporan_Perbaikan_A4.pdf',
+                filename:     '12_Form_A4_Perbaikan.pdf',
                 image:        { type: 'jpeg', quality: 1.0 },
-                html2canvas:  { scale: 3, useCORS: true }, // Scale 3 agar hasil PDF sangat tajam
+                html2canvas:  { scale: 3, useCORS: true }, 
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
