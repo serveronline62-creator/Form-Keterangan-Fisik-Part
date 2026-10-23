@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12 Form Laporan Perbaikan - Sinkronisasi Otomatis</title>
+    <title>12 Form Laporan Perbaikan - Pure PDF</title>
     
-    <!-- LIBRARY HTML2CANVAS & JSPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- HANYA MEMUAT LIBRARY JSPDF (TANPA HTML2CANVAS) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
@@ -164,7 +163,7 @@
             font-size: 10px;
             display: block;
             width: 100%;
-            min-height: 14px; /* Mencegah kolaps saat kosong */
+            min-height: 14px; 
         }
 
         /* Input khusus untuk area tanda tangan agar memenuhi kotak */
@@ -204,7 +203,7 @@
             border-top: 1px solid #000; 
             background-color: #f9f9f9;
             min-height: 14px;
-            text-transform: uppercase; /* Nama otomatis jadi huruf besar */
+            text-transform: uppercase; 
         }
 
         /* --- PENGATURAN PRINT (CTRL+P) --- */
@@ -244,7 +243,7 @@
     <!-- Tombol Aksi -->
     <div class="button-group">
         <button class="btn btn-print" onclick="window.print()">🖨️ Print Dokumen</button>
-        <button class="btn btn-download" onclick="downloadPDF()">📥 Download PDF (1 Halaman)</button>
+        <button class="btn btn-download" onclick="downloadPurePDF()">📥 Download PDF (Murni)</button>
     </div>
 
     <!-- Area Kertas -->
@@ -254,7 +253,7 @@
         <div class="outer-border">
             <div class="table-grid">
                 
-                <!-- ================= FORM 1 (HANYA INI YANG ADA DROPDOWN) ================= -->
+                <!-- ================= FORM 1 (DROPDOWN) ================= -->
                 <table>
                     <tr class="row-top">
                         <td class="label-bold col-label">NAMA TEKNISI</td>
@@ -270,7 +269,7 @@
                             </select>
                         </td>
                     </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -279,32 +278,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper">
-                                    <input type="text" style="text-align: center; height: 100%;">
-                                </div>
-                                <!-- Nama akan muncul di sini -->
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper">
-                                    <input type="text" style="text-align: center; height: 100%;">
-                                </div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- ================= FORM 2 - 12 (HANYA TEKS) ================= -->
-                <!-- FORM 2 -->
+                <!-- ================= FORM 2 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -313,26 +303,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 3 -->
+                <!-- ================= FORM 3 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -341,26 +328,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 4 -->
+                <!-- ================= FORM 4 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -369,26 +353,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 5 -->
+                <!-- ================= FORM 5 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -397,26 +378,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 6 -->
+                <!-- ================= FORM 6 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -425,26 +403,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 7 -->
+                <!-- ================= FORM 7 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -453,26 +428,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 8 -->
+                <!-- ================= FORM 8 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -481,26 +453,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 9 -->
+                <!-- ================= FORM 9 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -509,26 +478,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 10 -->
+                <!-- ================= FORM 10 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -537,26 +503,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 11 -->
+                <!-- ================= FORM 11 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -565,26 +528,23 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
                     </tr>
                 </table>
 
-                <!-- FORM 12 -->
+                <!-- ================= FORM 12 ================= -->
                 <table>
-                    <tr class="row-top">
-                        <td class="label-bold col-label">NAMA TEKNISI</td>
-                        <td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td>
-                    </tr>
-                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text"></td></tr>
+                    <tr class="row-top"><td class="label-bold col-label">NAMA TEKNISI</td><td colspan="2"><span class="tech-name-top-display sync-tech-name"></span></td></tr>
+                    <tr class="row-top"><td class="label-italic">Keterangan</td><td colspan="2"><input type="text" class="input-keterangan"></td></tr>
                     <tr class="row-header">
                         <td rowspan="2" class="label-bold col-sign" style="text-align: center;">TANDATANGAN</td>
                         <td class="sub-label col-tech">Teknisi</td>
@@ -593,13 +553,13 @@
                     <tr>
                         <td class="col-tech sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-tech" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display sync-tech-name"></div>
                             </div>
                         </td>
                         <td class="col-hods sign-cell">
                             <div class="sign-container">
-                                <div class="sign-input-wrapper"><input type="text" style="text-align: center; height: 100%;"></div>
+                                <div class="sign-input-wrapper"><input type="text" class="sign-input-hods" style="text-align: center; height: 100%;"></div>
                                 <div class="sign-name-display">Muhammad Fauzi</div>
                             </div>
                         </td>
@@ -610,51 +570,128 @@
         </div>
     </div>
 
-    <!-- Script Sinkronisasi & Download PDF -->
+    <!-- Script Sinkronisasi & Download PDF Murni -->
     <script>
-        // Fungsi untuk menyebarkan nama teknisi ke SELURUH form
+        // Fungsi Sinkronisasi Dropdown
         function syncTechName(selectElement) {
             const selectedName = selectElement.value;
-            
-            // Ambil semua elemen yang memiliki class 'sync-tech-name' (baik di atas maupun di bawah TTD)
             const allTechNameElements = document.querySelectorAll('.sync-tech-name');
-            
-            // Lakukan perulangan untuk mengganti teksnya
             allTechNameElements.forEach(function(element) {
                 element.innerText = selectedName;
             });
         }
 
-        // Fungsi Download PDF
-        async function downloadPDF() {
-            const element = document.getElementById('pdf-content');
+        // Fungsi Download PDF Murni (Vektor & Teks)
+        async function downloadPurePDF() {
             const btn = document.querySelector('.btn-download');
             const originalText = btn.innerHTML;
-            
-            btn.innerHTML = '⏳ Memproses PDF...';
+            btn.innerHTML = '⏳ Memproses...';
             btn.disabled = true;
 
             try {
-                const canvas = await html2canvas(element, {
-                    scale: 2, 
-                    useCORS: true,
-                    scrollY: 0,
-                    windowWidth: element.scrollWidth,
-                    windowHeight: element.scrollHeight
-                });
-                
-                const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                
+                // Inisialisasi jsPDF (A4, ukuran mm)
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+                // Pengaturan Dasar
+                pdf.setFontSize(8);
+                pdf.setLineWidth(0.2); // Ketebalan garis seragam
                 
-                pdf.save('12_Form_A4_Perbaikan.pdf');
+                // Variabel Pengaturan Layout
+                const startX = 8;
+                const startY = 8;
+                const formWidth = 95;  // Lebar per form
+                const formHeight = 45; // Tinggi per form
+                const gapX = 4;        // Jarak antar kolom
+                const gapY = 2;        // Jarak antar baris
                 
+                // Ambil semua tabel dari DOM
+                const tables = document.querySelectorAll('.table-grid table');
+
+                tables.forEach((table, index) => {
+                    // Hitung posisi X dan Y
+                    const col = index % 2;
+                    const row = Math.floor(index / 2);
+                    const x = startX + (col * (formWidth + gapX));
+                    const y = startY + (row * (formHeight + gapY));
+
+                    // --- 1. AMBIL DATA DARI HTML ---
+                    // Cek apakah ini form pertama (dropdown) atau bukan
+                    let techName = "";
+                    if (index === 0) {
+                        techName = table.querySelector('select').value;
+                    } else {
+                        techName = table.querySelector('.tech-name-top-display').innerText;
+                    }
+                    if (techName === "-- Pilih Teknisi --") techName = "";
+
+                    const keterangan = table.querySelector('.input-keterangan').value;
+                    const techSignInput = table.querySelector('.sign-input-tech').value;
+                    const hodsSignInput = table.querySelector('.sign-input-hods').value;
+                    const techSignName = table.querySelector('.sync-tech-name').innerText;
+                    const hodsSignName = "Muhammad Fauzi";
+
+                    // --- 2. GAMBAR GARIS TABEL ---
+                    // Kotak Utama
+                    pdf.rect(x, y, formWidth, formHeight);
+
+                    // Baris 1: NAMA TEKNISI
+                    pdf.line(x, y + 8, x + formWidth, y + 8); // Garis horizontal
+                    pdf.line(x + 33, y, x + 33, y + 8); // Garis vertikal pemisah
+
+                    // Baris 2: Keterangan
+                    pdf.line(x, y + 16, x + formWidth, y + 16); 
+                    pdf.line(x + 33, y + 8, x + 33, y + 16);
+
+                    // Baris 3 & 4: Tanda Tangan
+                    pdf.line(x, y + 23, x + formWidth, y + 23); // Garis horizontal header TTD
+                    pdf.line(x + 33, y + 16, x + 33, y + 45); // Garis vertikal kiri
+                    pdf.line(x + 64, y + 16, x + 64, y + 45); // Garis vertikal tengah
+
+                    // Garis pemisah nama di bawah TTD
+                    pdf.line(x + 33, y + 41, x + 64, y + 41);
+                    pdf.line(x + 64, y + 41, x + 95, y + 41);
+
+                    // --- 3. TULIS TEKS ---
+                    // Baris 1
+                    pdf.setFont("helvetica", "bold");
+                    pdf.text("NAMA TEKNISI", x + 2, y + 5.5);
+                    pdf.setFont("helvetica", "normal");
+                    pdf.text(techName, x + 35, y + 5.5);
+
+                    // Baris 2
+                    pdf.setFont("helvetica", "italic");
+                    pdf.text("Keterangan", x + 2, y + 13.5);
+                    pdf.setFont("helvetica", "normal");
+                    pdf.text(keterangan, x + 35, y + 13.5);
+
+                    // Baris 3 (Header)
+                    pdf.setFont("helvetica", "bold");
+                    pdf.text("TANDATANGAN", x + 2, y + 30);
+                    pdf.text("Teknisi", x + 48.5, y + 20, { align: "center" });
+                    pdf.text("HoDS", x + 79.5, y + 20, { align: "center" });
+
+                    // Baris 4 (Isi TTD - jika ada yang diketik)
+                    pdf.setFont("helvetica", "normal");
+                    pdf.text(techSignInput, x + 48.5, y + 36, { align: "center" });
+                    pdf.text(hodsSignInput, x + 79.5, y + 36, { align: "center" });
+
+                    // Baris 4 (Nama di bawah TTD)
+                    pdf.setFontSize(7); // Font nama sedikit lebih kecil
+                    pdf.setFont("helvetica", "bold");
+                    pdf.text(techSignName, x + 48.5, y + 44, { align: "center" });
+                    pdf.text(hodsSignName, x + 79.5, y + 44, { align: "center" });
+                    
+                    // Kembalikan font size ke default untuk loop berikutnya
+                    pdf.setFontSize(8);
+                });
+
+                // Simpan File PDF
+                pdf.save('12_Form_A4_Perbaikan_Pure.pdf');
+
             } catch (error) {
                 console.error("Gagal membuat PDF:", error);
-                alert('Gagal mendownload PDF. Pastikan Anda terhubung dengan internet.');
+                alert('Gagal mendownload PDF. Silakan coba lagi.');
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
