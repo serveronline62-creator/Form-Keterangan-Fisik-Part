@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Cetak & Download PDF</title>
+    <title>Form Laporan Perbaikan - Presisi</title>
     
     <!-- Library untuk mengubah HTML ke PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -27,7 +27,6 @@
             margin-bottom: 20px;
         }
 
-        /* Desain Tombol Umum */
         .btn {
             padding: 10px 20px;
             font-size: 14px;
@@ -36,112 +35,101 @@
             cursor: pointer;
             border: none;
             transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* Tombol Print (Outline) */
         .btn-print {
             background-color: #ffffff;
             color: #1e293b;
             border: 1px solid #cbd5e1;
             box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-        .btn-print:hover {
-            background-color: #f1f5f9;
-        }
+        .btn-print:hover { background-color: #f1f5f9; }
 
-        /* Tombol Download PDF (Solid) */
         .btn-download {
             background-color: #2563eb;
             color: white;
             box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
         }
-        .btn-download:hover {
-            background-color: #1d4ed8;
-        }
+        .btn-download:hover { background-color: #1d4ed8; }
 
-        /* Simulasi Kertas A4 */
+
+        /* --- SIMULASI KERTAS & GARIS LUAR --- */
         .page-container {
             background-color: #ffffff;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 15mm 15mm;
+            width: 210mm; /* Lebar A4 */
+            min-height: 297mm; /* Tinggi A4 */
+            padding: 15mm; /* Margin kertas */
+            box-sizing: border-box;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Garis luar tebal sesuai gambar */
+        .outer-border {
+            border: 2px solid #000;
+            padding: 10px;
+            height: 100%;
             box-sizing: border-box;
         }
 
-        /* Header Dokumen */
-        .document-header {
-            text-align: center;
-            border-bottom: 2px solid #000;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .document-header h2 {
-            margin: 0 0 5px 0;
-            font-size: 18px;
-            text-transform: uppercase;
-        }
-
-        .document-header p {
-            margin: 0;
-            font-size: 12px;
-            color: #333;
-        }
-
-        /* --- STRUKTUR GRID TABEL --- */
+        /* Grid untuk 10 form (5 baris x 2 kolom) */
         .table-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px 20px;
+            gap: 15px 20px; /* Jarak antar form */
         }
 
-        /* Styling Tabel */
+        /* --- STYLING TABEL --- */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 11px;
+            font-size: 10px;
             page-break-inside: avoid;
         }
 
         td {
             border: 1px solid #000;
-            padding: 4px 6px;
-            height: 22px;
+            padding: 3px 5px;
+            height: 18px;
         }
 
-        .label {
+        /* Mengatur lebar kolom khusus */
+        .col-label { width: 35%; }
+        .col-input { width: 65%; }
+        .col-sign { width: 35%; }
+        .col-tech { width: 32.5%; text-align: center; }
+        .col-hods { width: 32.5%; text-align: center; }
+
+        /* Teks Label */
+        .label-bold {
             font-weight: bold;
+            font-size: 9px;
             text-transform: uppercase;
-            font-size: 10px;
-            background-color: #f9f9f9;
         }
 
-        .input-cell {
-            background-color: #fff;
+        .label-italic {
+            font-style: italic;
+            font-size: 9px;
         }
 
-        input[type="text"], input[type="date"], input[type="time"] {
+        .sub-label {
+            font-size: 9px;
+        }
+
+        /* Input Area */
+        input[type="text"] {
             width: 100%;
             border: none;
             outline: none;
             background: transparent;
             font-family: inherit;
-            font-size: 11px;
+            font-size: 10px;
             padding: 0;
         }
 
-        .col-sign { width: 50%; }
-        .col-date { width: 25%; }
-        .col-time { width: 25%; }
-
-        /* --- PENGATURAN SAAT DI-PRINT (CTRL+P) --- */
+        /* --- PENGATURAN PRINT/PDF --- */
         @page {
             size: A4 portrait;
-            margin: 10mm;
+            margin: 0; /* Margin diatur oleh page-container */
         }
 
         @media print {
@@ -151,7 +139,6 @@
                 display: block;
             }
 
-            /* Sembunyikan tombol saat dicetak */
             .button-group {
                 display: none !important; 
             }
@@ -159,9 +146,8 @@
             .page-container {
                 width: 100%;
                 min-height: auto;
-                padding: 0;
+                padding: 10mm; /* Margin cetak */
                 box-shadow: none;
-                border: none;
             }
 
             * {
@@ -173,165 +159,287 @@
 </head>
 <body>
 
-    <!-- Group Tombol -->
+    <!-- Tombol Aksi -->
     <div class="button-group">
-        <button class="btn btn-print" onclick="window.print()">
-            🖨️ Print Dokumen
-        </button>
-        <button class="btn btn-download" onclick="downloadPDF()">
-            📥 Download PDF
-        </button>
+        <button class="btn btn-print" onclick="window.print()">🖨️ Print Dokumen</button>
+        <button class="btn btn-download" onclick="downloadPDF()">📥 Download PDF</button>
     </div>
 
-    <!-- Area Kertas (ID ini yang akan diubah menjadi PDF) -->
+    <!-- Area Kertas -->
     <div class="page-container" id="pdf-content">
         
-        <div class="document-header">
-            <h2>Form Laporan Perbaikan</h2>
-            <p>Silakan isi form di bawah ini dengan lengkap</p>
-        </div>
+        <!-- Garis Kotak Luar -->
+        <div class="outer-border">
+            <div class="table-grid">
+                
+                <!-- Looping 10 Form (Bisa di-copy paste manual) -->
+                <!-- FORM 1 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
-        <div class="table-grid">
-            
-            <!-- Form 1 -->
-            <table>
-                <tr><td colspan="3" class="label">DI-REPAIR OLEH:</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">NAMA TEKNISI</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">Keterangan</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr>
-                    <td class="label col-sign">TANDA TANGAN</td>
-                    <td class="label col-date">Tanggal</td>
-                    <td class="label col-time">Jam</td>
-                </tr>
-                <tr>
-                    <td class="input-cell"><input type="text"></td>
-                    <td class="input-cell"><input type="date"></td>
-                    <td class="input-cell"><input type="time"></td>
-                </tr>
-            </table>
+                <!-- FORM 2 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
-            <!-- Form 2 -->
-            <table>
-                <tr><td colspan="3" class="label">DI-REPAIR OLEH:</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">NAMA TEKNISI</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">Keterangan</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr>
-                    <td class="label col-sign">TANDA TANGAN</td>
-                    <td class="label col-date">Tanggal</td>
-                    <td class="label col-time">Jam</td>
-                </tr>
-                <tr>
-                    <td class="input-cell"><input type="text"></td>
-                    <td class="input-cell"><input type="date"></td>
-                    <td class="input-cell"><input type="time"></td>
-                </tr>
-            </table>
+                <!-- FORM 3 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
-            <!-- Form 3 -->
-            <table>
-                <tr><td colspan="3" class="label">DI-REPAIR OLEH:</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">NAMA TEKNISI</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">Keterangan</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr>
-                    <td class="label col-sign">TANDA TANGAN</td>
-                    <td class="label col-date">Tanggal</td>
-                    <td class="label col-time">Jam</td>
-                </tr>
-                <tr>
-                    <td class="input-cell"><input type="text"></td>
-                    <td class="input-cell"><input type="date"></td>
-                    <td class="input-cell"><input type="time"></td>
-                </tr>
-            </table>
+                <!-- FORM 4 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
-            <!-- Form 4 -->
-            <table>
-                <tr><td colspan="3" class="label">DI-REPAIR OLEH:</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">NAMA TEKNISI</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">Keterangan</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr>
-                    <td class="label col-sign">TANDA TANGAN</td>
-                    <td class="label col-date">Tanggal</td>
-                    <td class="label col-time">Jam</td>
-                </tr>
-                <tr>
-                    <td class="input-cell"><input type="text"></td>
-                    <td class="input-cell"><input type="date"></td>
-                    <td class="input-cell"><input type="time"></td>
-                </tr>
-            </table>
+                <!-- FORM 5 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
-            <!-- Form 5 -->
-            <table>
-                <tr><td colspan="3" class="label">DI-REPAIR OLEH:</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">NAMA TEKNISI</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">Keterangan</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr>
-                    <td class="label col-sign">TANDA TANGAN</td>
-                    <td class="label col-date">Tanggal</td>
-                    <td class="label col-time">Jam</td>
-                </tr>
-                <tr>
-                    <td class="input-cell"><input type="text"></td>
-                    <td class="input-cell"><input type="date"></td>
-                    <td class="input-cell"><input type="time"></td>
-                </tr>
-            </table>
+                <!-- FORM 6 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
-            <!-- Form 6 -->
-            <table>
-                <tr><td colspan="3" class="label">DI-REPAIR OLEH:</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">NAMA TEKNISI</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr><td colspan="3" class="label">Keterangan</td></tr>
-                <tr><td colspan="3" class="input-cell"><input type="text"></td></tr>
-                <tr>
-                    <td class="label col-sign">TANDA TANGAN</td>
-                    <td class="label col-date">Tanggal</td>
-                    <td class="label col-time">Jam</td>
-                </tr>
-                <tr>
-                    <td class="input-cell"><input type="text"></td>
-                    <td class="input-cell"><input type="date"></td>
-                    <td class="input-cell"><input type="time"></td>
-                </tr>
-            </table>
+                <!-- FORM 7 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
 
+                <!-- FORM 8 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
+
+                <!-- FORM 9 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
+
+                <!-- FORM 10 -->
+                <table>
+                    <tr>
+                        <td class="label-bold col-label">EX-REPAIR OLEH,</td>
+                        <td colspan="2" class="col-input"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-bold">NAMA TEKNISI</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td class="label-italic">Keterangan</td>
+                        <td colspan="2"><input type="text"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="label-bold col-sign" style="vertical-align: middle;">TANDATANGAN</td>
+                        <td class="sub-label col-tech">Teknisi</td>
+                        <td class="sub-label col-hods">HoDS</td>
+                    </tr>
+                    <tr>
+                        <td class="col-tech"><input type="text"></td>
+                        <td class="col-hods"><input type="text"></td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
     </div>
 
-    <!-- Script untuk Download PDF -->
+    <!-- Script Download PDF -->
     <script>
         function downloadPDF() {
-            // Ambil elemen yang akan diubah menjadi PDF
             const element = document.getElementById('pdf-content');
             
-            // Pengaturan untuk PDF
             const opt = {
-                margin:       0, // Margin diatur oleh CSS page-container
+                margin:       0, 
                 filename:     'Form_Laporan_Perbaikan.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Proses mengubah HTML ke PDF
             html2pdf().set(opt).from(element).save();
         }
     </script>
