@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>12 Form Laporan Perbaikan - 1 Halaman PDF</title>
     
-    <!-- Library untuk mengubah HTML ke PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- LIBRARY TERPISAH AGAR FUNGSI DOWNLOAD PASTI BERHASIL -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         /* --- PENGATURAN DASAR & LAYAR --- */
@@ -62,7 +63,7 @@
             background-color: #ffffff;
             width: 210mm;  /* Lebar A4 */
             height: 297mm; /* Tinggi A4 TEPAT */
-            padding: 8mm;  /* Margin kertas sedikit dikurangi */
+            padding: 8mm;  /* Margin kertas */
             box-sizing: border-box;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             overflow: hidden; /* Mencegah isi bocor keluar kertas */
@@ -183,7 +184,6 @@
         <div class="outer-border">
             <div class="table-grid">
                 
-                <!-- ================= BARIS 1 ================= -->
                 <!-- FORM 1 -->
                 <table>
                     <tr><td class="label-bold col-label">EX-REPAIR OLEH,</td><td colspan="2" class="col-input"><input type="text"></td></tr>
@@ -210,7 +210,6 @@
                     <tr><td class="col-tech"><input type="text"></td><td class="col-hods"><input type="text"></td></tr>
                 </table>
 
-                <!-- ================= BARIS 2 ================= -->
                 <!-- FORM 3 -->
                 <table>
                     <tr><td class="label-bold col-label">EX-REPAIR OLEH,</td><td colspan="2" class="col-input"><input type="text"></td></tr>
@@ -237,7 +236,6 @@
                     <tr><td class="col-tech"><input type="text"></td><td class="col-hods"><input type="text"></td></tr>
                 </table>
 
-                <!-- ================= BARIS 3 ================= -->
                 <!-- FORM 5 -->
                 <table>
                     <tr><td class="label-bold col-label">EX-REPAIR OLEH,</td><td colspan="2" class="col-input"><input type="text"></td></tr>
@@ -264,7 +262,6 @@
                     <tr><td class="col-tech"><input type="text"></td><td class="col-hods"><input type="text"></td></tr>
                 </table>
 
-                <!-- ================= BARIS 4 ================= -->
                 <!-- FORM 7 -->
                 <table>
                     <tr><td class="label-bold col-label">EX-REPAIR OLEH,</td><td colspan="2" class="col-input"><input type="text"></td></tr>
@@ -291,7 +288,6 @@
                     <tr><td class="col-tech"><input type="text"></td><td class="col-hods"><input type="text"></td></tr>
                 </table>
 
-                <!-- ================= BARIS 5 ================= -->
                 <!-- FORM 9 -->
                 <table>
                     <tr><td class="label-bold col-label">EX-REPAIR OLEH,</td><td colspan="2" class="col-input"><input type="text"></td></tr>
@@ -318,7 +314,6 @@
                     <tr><td class="col-tech"><input type="text"></td><td class="col-hods"><input type="text"></td></tr>
                 </table>
 
-                <!-- ================= BARIS 6 ================= -->
                 <!-- FORM 11 -->
                 <table>
                     <tr><td class="label-bold col-label">EX-REPAIR OLEH,</td><td colspan="2" class="col-input"><input type="text"></td></tr>
@@ -349,46 +344,48 @@
         </div>
     </div>
 
-    <!-- Script Download PDF (PASTI 1 HALAMAN) -->
+    <!-- Script Download PDF (FIXED) -->
     <script>
-        function downloadPDF() {
+        async function downloadPDF() {
             const element = document.getElementById('pdf-content');
             const btn = document.querySelector('.btn-download');
             const originalText = btn.innerHTML;
             
-            // Tampilkan status loading pada tombol
+            // Tampilkan status loading
             btn.innerHTML = '⏳ Memproses PDF...';
             btn.disabled = true;
 
-            // Panggil html2canvas secara langsung untuk mengunci dimensi
-            html2canvas(element, {
-                scale: 2, // Skala 2 sudah sangat tajam dan ringan (tidak memicu bug multi-page)
-                useCORS: true,
-                scrollY: 0,
-                windowWidth: element.scrollWidth,
-                windowHeight: element.scrollHeight
-            }).then(canvas => {
+            try {
+                // 1. Ambil screenshot dari area form
+                const canvas = await html2canvas(element, {
+                    scale: 2, // Skala 2 cukup tajam dan ringan
+                    useCORS: true,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+                
+                // 2. Konversi ke Gambar (JPEG)
                 const imgData = canvas.toDataURL('image/jpeg', 1.0);
                 
-                // Inisialisasi jsPDF dengan ukuran A4
+                // 3. Masukkan ke dalam file PDF A4
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 
-                // Kunci gambar agar memenuhi 1 halaman A4 penuh (210 x 297 mm)
-                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297, undefined, 'FAST');
+                // 4. Kunci gambar agar pas 1 halaman penuh (210 x 297 mm)
+                pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
                 
-                // Simpan file
+                // 5. Download
                 pdf.save('12_Form_A4_Perbaikan.pdf');
                 
-                // Kembalikan tombol seperti semula
+            } catch (error) {
+                console.error("Gagal membuat PDF:", error);
+                alert('Gagal mendownload PDF. Pastikan Anda terhubung ke internet.');
+            } finally {
+                // Kembalikan tombol ke keadaan semula
                 btn.innerHTML = originalText;
                 btn.disabled = false;
-            }).catch(err => {
-                console.error(err);
-                alert('Gagal membuat PDF. Silakan coba lagi.');
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            });
+            }
         }
     </script>
 
