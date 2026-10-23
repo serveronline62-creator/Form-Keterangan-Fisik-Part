@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>12 Form Laporan Perbaikan - 1 Halaman PDF</title>
+    <title>12 Form Laporan Perbaikan - Garis Seragam</title>
     
-    <!-- LIBRARY TERPISAH AGAR FUNGSI DOWNLOAD PASTI BERHASIL -->
+    <!-- LIBRARY HTML2CANVAS & JSPDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -58,20 +58,20 @@
         }
         .btn-download:hover { background-color: #1d4ed8; }
 
-        /* --- SIMULASI KERTAS A4 (PAS UKURAN) --- */
+        /* --- SIMULASI KERTAS A4 --- */
         .page-container {
             background-color: #ffffff;
-            width: 210mm;  /* Lebar A4 */
-            height: 297mm; /* Tinggi A4 TEPAT */
-            padding: 8mm;  /* Margin kertas */
+            width: 210mm;  
+            height: 297mm; 
+            padding: 8mm;  
             box-sizing: border-box;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            overflow: hidden; /* Mencegah isi bocor keluar kertas */
+            overflow: hidden; 
         }
 
-        /* Garis luar tebal */
+        /* Garis luar tebal DISERAGAMKAN MENJADI 1PX */
         .outer-border {
-            border: 2px solid #000;
+            border: 1px solid #000; /* Diubah dari 2px ke 1px */
             padding: 6px; 
             height: 100%;
             box-sizing: border-box;
@@ -82,7 +82,7 @@
         .table-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(6, 1fr); /* 6 baris, tinggi dibagi rata */
+            grid-template-rows: repeat(6, 1fr); 
             gap: 6px 12px; 
             width: 100%;
             height: 100%;
@@ -93,12 +93,14 @@
             width: 100%;
             height: 100%; 
             border-collapse: collapse;
+            border-spacing: 0; /* Mencegah garis ganda */
             font-size: 9px; 
             table-layout: fixed; 
         }
 
+        /* Garis dalam tabel DISERAGAMKAN MENJADI 1PX */
         td {
-            border: 1px solid #000;
+            border: 1px solid #000; /* Ketebalan sama dengan outer-border */
             padding: 1px 4px; 
             vertical-align: middle;
         }
@@ -344,45 +346,38 @@
         </div>
     </div>
 
-    <!-- Script Download PDF (FIXED) -->
+    <!-- Script Download PDF -->
     <script>
         async function downloadPDF() {
             const element = document.getElementById('pdf-content');
             const btn = document.querySelector('.btn-download');
             const originalText = btn.innerHTML;
             
-            // Tampilkan status loading
             btn.innerHTML = '⏳ Memproses PDF...';
             btn.disabled = true;
 
             try {
-                // 1. Ambil screenshot dari area form
                 const canvas = await html2canvas(element, {
-                    scale: 2, // Skala 2 cukup tajam dan ringan
+                    scale: 2, 
                     useCORS: true,
                     scrollY: 0,
                     windowWidth: element.scrollWidth,
                     windowHeight: element.scrollHeight
                 });
                 
-                // 2. Konversi ke Gambar (JPEG)
                 const imgData = canvas.toDataURL('image/jpeg', 1.0);
                 
-                // 3. Masukkan ke dalam file PDF A4
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 
-                // 4. Kunci gambar agar pas 1 halaman penuh (210 x 297 mm)
                 pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
                 
-                // 5. Download
                 pdf.save('12_Form_A4_Perbaikan.pdf');
                 
             } catch (error) {
                 console.error("Gagal membuat PDF:", error);
                 alert('Gagal mendownload PDF. Pastikan Anda terhubung ke internet.');
             } finally {
-                // Kembalikan tombol ke keadaan semula
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
